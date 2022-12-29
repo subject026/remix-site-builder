@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SiteMeta {
+  id String @id @default(cuid())
+
+  indexSlug String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Page {
+  id String @id @default(cuid())
+
+  slug    String @unique
+  title   String
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Navigation {
+  id String @id @default(cuid())
+
+  name  String
+  items NavigationItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model NavigationItem {
+  id String @id @default(cuid())
+
+  navigationId String
+  Navigation   Navigation? @relation(fields: [navigationId], references: [id])
+}

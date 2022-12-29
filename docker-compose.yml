@@ -1,0 +1,20 @@
+version: "3.3"
+services:
+  db:
+    container_name: remix-site-builder-postgres
+    platform: linux/x86_64
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "remix-site-builder"
+    ports:
+      - "5455:5432"
+    # expose:
+    #   - "5432"
+    volumes:
+      - remix-site-builder:/var/lib/postgresql/data
+
+volumes:
+  remix-site-builder:
